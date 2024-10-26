@@ -1,11 +1,14 @@
 // @ts-expect-error ignore the next line
 import React from 'react'
 import './App.css'
+// import GetYourMoneyUp from './App/GetYourMoneyUp'
+import Questionnaire from './Components/Questionnaire'
 
 function App() {
   return (
     <>
-      <div className="font-bold uppercase">hello world</div>
+      {/* <GetYourMoneyUp /> */}
+      <Questionnaire />
     </>
   )
 }
