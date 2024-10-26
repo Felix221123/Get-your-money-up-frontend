@@ -12,5 +12,12 @@ export default defineConfig({
     environment: 'jsdom',
     css: true,
     setupFiles: './src/test/setup.ts',
+  }, optimizeDeps: {
+    include: ['pdfjs-dist/build/pdf.worker.entry'],
+  },
+  build: {
+    commonjsOptions: {
+      include: [/pdfjs-dist/],
+    },
   },
 })
