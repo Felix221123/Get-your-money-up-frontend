@@ -1,6 +1,6 @@
-# React Vite Template with Cypress, Vitest, Tailwind CSS, and Docker
+# Get your money up
 
-This is a React template project using Vite, Vitest for unit testing, Tailwind CSS for styling, and Docker for containerization. This template aims to provide a quick start for developing React applications with modern tooling and best practices.
+This is a group hackathon project in University of Nottingham called hacknotts
 
 ## Features
 
@@ -27,8 +27,8 @@ Follow these steps to get up and running:
 ### 1. Clone the Repository
 
 ```sh
-git clone https://github.com/Felix221123/React-Vite-Vitest-Boilerplate.git
-cd React-Vite-Vitest-Boilerplate
+git clone https://github.com/Felix221123/<github-name>.git
+cd github-name
 ```
 
 ### 2. Install Dependencies
