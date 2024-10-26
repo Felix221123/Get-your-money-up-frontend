@@ -2,7 +2,7 @@ import pdfToText from "react-pdftotext";
 import OpenAI from "openai";
 
 const openai = new OpenAI({
-    apiKey: "sk--OEPL8IgTkF67RyaayWutQO8arESrOj2BlB9f5RgUQT3BlbkFJcDDSh425SPijSITVLq4xhH1-oezsNK893S_QUot-YA",
+    apiKey: import.meta.VITE_APIKEY ,
     dangerouslyAllowBrowser: true,
 });
 
