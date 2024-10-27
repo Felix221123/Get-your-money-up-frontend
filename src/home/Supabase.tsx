@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { createClient } from '@supabase/supabase-js';
-import parserLogic from './parserLogic';
+import {parserLogic} from './parserLogic';
 
 // supabase client keys and url
 const supabaseUrl = "https://zzbgglheuqzbwueaeino.supabase.co/";
-const apiKey = "";
+const apiKey = import.meta.env.VITE_SUPERBASE;
 
 // supabase client
 const supabaseClient = createClient(supabaseUrl, apiKey);
