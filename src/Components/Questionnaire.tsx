@@ -1,4 +1,4 @@
-import React, { useState} from 'react'
+import React, { useState } from 'react'
 import "./styles.css"
 import { Range } from 'react-range'
 
@@ -7,14 +7,9 @@ import { Range } from 'react-range'
 const Questionnaire: React.FC = () => {
     // state for range
     const [savingsValue, setSavingsValue] = useState([20]);
-   
-    // users disposable income
-    const disposable = 1000;
-    // Calculate savings and investment amounts based on the slider value
-    const savingsAmount = (savingsValue[0] / 100) * disposable;
-    const investmentAmount = disposable - savingsAmount;
 
-    console.log("here is the value ",savingsValue[0]);
+
+    console.log("here is the value ", savingsValue[0]);
 
     // questionnaire for savings and investment
     const incomeSplit = 'How would you like to allocate your disposable income? We recommend 80% for investment and 20% for savings, but feel free to adjust based on your goals.'
@@ -23,7 +18,6 @@ const Questionnaire: React.FC = () => {
         <>
             <div className="questionnaireComponent">
                 <h1 className='text-center font-bold'>{incomeSplit}</h1>
-                <p className='text-center font-bold'>Disposable Income : ${disposable}</p>
                 {/* range button component */}
                 {/* Savings Component */}
                 <div className="containers">
@@ -71,12 +65,6 @@ const Questionnaire: React.FC = () => {
 
                     {/* Investment Component */}
                     <h3 className='text-center font-bold'> Investment: {100 - savingsValue[0]}%</h3>
-
-                    {/* Display Calculated Amounts */}
-                    <div className="allocation-summary text-center font-bold" style={{ marginTop: "1rem" }}>
-                        <p>Savings Amount: ${savingsAmount.toFixed(2)}</p>
-                        <p>Investment Amount: ${investmentAmount.toFixed(2)}</p>
-                    </div>
 
 
                 </div>
