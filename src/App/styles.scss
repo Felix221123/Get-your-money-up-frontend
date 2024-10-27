@@ -1,0 +1,52 @@
+@import "../Styles/base.scss";
+
+
+@mixin MainApp(){
+    padding: 3rem 2.5rem;
+    @include flex(column);
+    row-gap: 3.5rem;
+
+    > .content{
+        @include flex(column);
+        row-gap: 1.5rem;
+
+
+        > h1{
+            @include fontSize32px();
+            color: $accent-purple;
+            font-family: $manrope;
+        }
+        > p{
+            @include fontSize18px();
+            color: $basic-dark;
+            font-family: $raleway;
+
+        }
+
+    }
+
+    > .uploadFileSection{
+        @include flexComp(column);
+        row-gap: 2.5rem;
+
+        > h2{
+            @include fontSize24px();
+            color: $accent-purple;
+            font-family: $manrope;
+        }
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
+.mainApp{
+    @include MainApp();
+}

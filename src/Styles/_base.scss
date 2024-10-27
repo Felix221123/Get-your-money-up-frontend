@@ -1,0 +1,145 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Raleway:ital,wght@0,100..900;1,100..900&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+
+
+
+
+// fonts variables
+$manrope: 'Manrope', sans-serif;
+$raleway: 'Raleway', sans-serif;
+$spaceMono: 'Space Mono', monospace;
+
+
+
+// Accent Colors
+$accent-blue: #007AFF;
+$accent-orange: #FF9500;
+$accent-pink: #FF2D55;
+$accent-purple: #5856D6;
+$accent-teal-blue: #5AC8FA;
+$accent-yellow: #FFCC00;
+
+// Basic Colors
+$basic-adding: #4CD964;
+$basic-destructive: #FF3B30;
+$basic-dark: #000000;
+$basic-light: #FFFFFF;
+
+
+
+
+//components mixins here
+@mixin flex($direc){
+    display: flex;
+    flex-direction: $direc
+}
+    
+
+@mixin flexComp($direc) {
+    display: flex;
+    flex-direction: $direc;
+    justify-content: center;
+    align-items: center
+}
+
+@mixin fontSize12px() {
+    font-size: clamp(0.75rem, 0.755vw, 0.76rem)
+}
+
+@mixin fontSize13px() {
+    font-size: clamp(0.8125rem, 0.82vw, 0.825rem)
+}
+
+@mixin fontSize18px() {
+    font-size: clamp(1.125rem, 1.13vw, 1.13rem)
+}
+
+@mixin fontSize15px() {
+    font-size: clamp(0.9375rem, 0.94vw, 0.94rem)
+}
+
+@mixin fontSize16px() {
+    font-size: clamp(1rem, 1.05vw, 1.05rem)
+}
+
+@mixin fontSize14px() {
+    font-size: clamp(0.875rem, 0.88vw, 0.89rem)
+}
+
+@mixin fontSize20px() {
+    font-size: clamp(1.25rem , 1.25vw, 1.26rem)
+}
+
+@mixin fontSize28px() {
+    font-size: clamp(1.75rem, 1.78vw, 1.79rem)
+}
+
+@mixin fontSize24px() {
+    font-size: clamp(1.5rem, 1.52vw, 1.55rem)
+}
+
+@mixin fontSize32px() {
+    font-size: clamp(2rem, 2.05vw, 2.05rem)
+}
+
+@mixin fontSize35px() {
+    font-family: clamp(2.1875rem , 2.19vw , 2.19rem)
+}
+
+@mixin fontSize40px() {
+    font-size: clamp(2.5rem, 2.55vw, 2.6rem)
+}
+
+@mixin fontSize50px() {
+    font-size: clamp(3.125rem, 3.125vw, 3.13rem)
+}
+
+@mixin fontSize60px() {
+    font-size: clamp(3.75rem, 3.76vw, 3.78rem)
+}
+
+@mixin Transbtnhovers() {
+    transition: 0.5s
+}
+
+@mixin hoverActiveBtn($bgclr , $clr) {
+    &:hover,
+    :active {
+        background-color: $bgclr;
+        color: $clr
+    }
+}
+
+@mixin hiddenElement() {
+    @media (max-width:1439px) {
+        display: none
+    }
+}
+
+@mixin SizeofOriginalContentsForDevicesMorethan1440px(){
+    @media (min-width:1440px){
+        width: 90rem;
+    margin-inline: auto
+    }
+
+}
+
+
+@mixin hiddenElementOnLessThan767px() {
+    @media (max-width:767px) {
+        display: none;
+    }
+}
+
+@mixin hiddenElementOnMoreThan768px(){
+    @media (min-width:768px) {
+        display: none;
+    }
+}
+
+@mixin hiddenElementOnMoreThan1440px(){
+    @media (min-width:1440px) {
+        display: none;
+    }
+}
+
