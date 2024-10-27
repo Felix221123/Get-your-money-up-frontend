@@ -1,15 +1,17 @@
 import pdfToText from "react-pdftotext";
 import OpenAI from "openai";
+import { v4 as uuidv4 } from 'uuid';
+import { FetchData } from "./fetchdata";
 
 const openai = new OpenAI({
-    apiKey: import.meta.VITE_APIKEY ,
-    dangerouslyAllowBrowser: true,
+  apiKey: import.meta.env.VITE_OPENAIAPI_KEY,
+  dangerouslyAllowBrowser: true,
 });
 
-const parserLogic = (pdfFile: File) => {
-    const testmode = true;
-    let ssuid = 12345678;
-    const testResponse = `{
+export const parserLogic = (pdfFile: File) => {
+  const testmode = true;
+  let ssuid = uuidv4();
+  const testResponse = `{
   "statements": [
     {
       "bank_statement_uid": "${ssuid}",
@@ -169,7 +171,7 @@ const parserLogic = (pdfFile: File) => {
     }
   ]
 }`;
-    let customPrompt: string = `
+  let customPrompt: string = `
 *WHAT EVER YOU DO PLEASE FOR THE LOVE OF GOD ONLY REPLY IN JSON AS THIS DATA WILL BE PARSED	*
 I have Provided a json schema and my values that I would like you to use to populate the schema and produce the statements. Please find them under the appropiate headings.
 Now for all bank_statement_uid please assign this ${ssuid}. 
@@ -235,25 +237,23 @@ SCHEMA:
 }
   VALUES:
 `;
-    if (testmode){
-        console.log(testResponse);
-    } else {
-        processPdfAndSendToGPT3(pdfFile, customPrompt);
-    }
-    
-    return <div></div>;
+  if (testmode) {
+    console.log(testResponse);
+  } else {
+    processPdfAndSendToGPT3(pdfFile, customPrompt);
+  }
+
+  return <div></div>;
 };
 
-export default parserLogic;
-
 export const processPdfAndSendToGPT3 = async (pdfFile: File, customPrompt: string): Promise<string> => {
-    try {
-        if (!pdfFile) {
-            throw new Error("No file selected");
-        }
-            let extractedText = await pdfToText(pdfFile);
-            console.log(extractedText);
-    
+  try {
+    if (!pdfFile) {
+      throw new Error("No file selected");
+    }
+    let extractedText = await pdfToText(pdfFile);
+    console.log(extractedText);
+
     const prompt = customPrompt + extractedText;
     const response = await openai.chat.completions.create({
       model: "gpt-3.5-turbo",
@@ -273,5 +273,30 @@ export const processPdfAndSendToGPT3 = async (pdfFile: File, customPrompt: strin
   } catch (error) {
     console.error("Error processing PDF or GPT-3 request:", error);
     throw error;
-}
+  }
+
+
 };
+
+export const createEntity = async () => {
+  const apiUrl = "https://get-your-money-up-backend.onrender.com/";
+  const options = {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    credentials: 'include', // Include cookies if needed
+    //body: JSON.stringify(),
+  };
+
+  const response = await FetchData(apiUrl, options);
+
+  if (!response.ok) {
+    // Handle errors by throwing the error data
+    const errorData = await response.json();
+    console.error("Error creating board: ", errorData);
+    throw { status: response.status, ...errorData };
+  }
+
+  return response.json();
+}

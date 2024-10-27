@@ -7,8 +7,8 @@
 
 # Local History for Visual Studio Code
 .history/
-node_modules
-.DS_Stores
 
 # Built Visual Studio Code Extensions
 *.vsix
+node_modules
+.env
