@@ -1,5 +1,6 @@
 import React from 'react'
 import "./styles.css"
+import SupabaseConnection from '../home/Supabase'
 
 
 
@@ -27,6 +28,7 @@ const GetYourMoneyUp: React.FC = () => {
                     <h2 className='text-center font-bold'>{header2}</h2>
 
                     {/* upload file button or component */}
+                    <SupabaseConnection />
                 </div>
             </div>
         </>

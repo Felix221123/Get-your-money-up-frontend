@@ -2,16 +2,18 @@ import pdfToText from "react-pdftotext";
 import OpenAI from "openai";
 import { v4 as uuidv4 } from 'uuid';
 import { FetchData } from "./fetchdata";
-import {StatementDataInterface} from '../Interface/BankStatementProps'
+import { StatementDataInterface } from '../Interface/BankStatementProps'
+import { CategoryParsedDataInterface } from "../Interface/CategoryData";
 
 const openai = new OpenAI({
   apiKey: import.meta.env.VITE_OPENAIAPI_KEY,
   dangerouslyAllowBrowser: true,
 });
 
-export const parserLogic = async(pdfFile: File) => {
+export const parserLogic = async (pdfFile: File): Promise<CategoryParsedDataInterface | void> => {
   const testmode = true;
   let ssuid = uuidv4();
+  console.log("ssuid is ", ssuid);
   const testResponse = `{
   "statements": [
     {
@@ -238,17 +240,23 @@ SCHEMA:
 }
   VALUES:
 `;
-if (testmode) {
-  const formattedData = formatBankStatementData(JSON.parse(testResponse));
-  console.log(formattedData);
-  createEntity(formattedData);
-} else {
-  const rawData = await processPdfAndSendToGPT3(pdfFile, customPrompt);
-  const formattedData = formatBankStatementData(JSON.parse(rawData));
-  createEntity(formattedData);
-}
+  if (testmode) {
+    const formattedData = formatBankStatementData(JSON.parse(testResponse));
+    console.log("formatted data is ", formattedData);
 
-  return <div></div>;
+    // Create the entity in the backend
+    await createEntity(formattedData);
+
+    // Fetch categorized data and return it
+    const categoryData = await categoriseStatement(ssuid);
+    return categoryData;
+  } else {
+    const rawData = await processPdfAndSendToGPT3(pdfFile, customPrompt);
+    const formattedData = formatBankStatementData(JSON.parse(rawData));
+    await createEntity(formattedData);
+    const categoryData = await categoriseStatement(ssuid);
+    return categoryData;
+  }
 };
 
 
@@ -274,7 +282,7 @@ export const processPdfAndSendToGPT3 = async (pdfFile: File, customPrompt: strin
     });
 
     const gptResponse = response.choices[0]?.message?.content?.trim() || "";
-    console.log(gptResponse);
+    console.log("gpt response is", gptResponse);
     return gptResponse;
 
   } catch (error) {
@@ -301,14 +309,16 @@ export const formatBankStatementData = (rawData: StatementDataInterface): Statem
 };
 
 
-export const createEntity = async (bankStatementData :StatementDataInterface) => {
+export const createEntity = async (bankStatementData: StatementDataInterface) => {
+  console.log("here is your bank statement ", bankStatementData);
   const apiUrl = "https://get-your-money-up-backend.onrender.com/";
   const options = {
     method: "POST",
+    // mode:"no-cors",
     headers: {
       "Content-Type": "application/json",
     },
-    credentials: 'include', // Include cookies if needed
+    // credentials: 'include', // Include cookies if needed
     body: JSON.stringify(bankStatementData),
   };
 
@@ -317,9 +327,28 @@ export const createEntity = async (bankStatementData :StatementDataInterface) =>
   if (!response.ok) {
     // Handle errors by throwing the error data
     const errorData = await response.json();
-    console.error("Error creating board: ", errorData);
     throw { status: response.status, ...errorData };
   }
 
   return response.json();
+}
+
+export const categoriseStatement = async (bank_statement_id: string): Promise<CategoryParsedDataInterface | void> => {
+  const apiUrl = `https://get-your-money-up-backend.onrender.com/summarize/${bank_statement_id}`;
+  const options = {
+    method: "GET",
+  };
+
+  const response = await FetchData(apiUrl, options);
+  console.log("response for category ", response);
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw { status: response.status, ...errorData };
+  }
+
+  const data = await response.json();
+  console.log("Parsed response data for category:", data);
+
+  return data;
 }
