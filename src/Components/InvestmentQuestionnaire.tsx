@@ -13,6 +13,7 @@ const InvestmentQuestionnaire: React.FC = () => {
             <h1>{investmentDescription}</h1>
 
             {/* range component here */}
+            
 
         </div>
         </>

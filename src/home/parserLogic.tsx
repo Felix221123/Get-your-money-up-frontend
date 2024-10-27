@@ -2,6 +2,7 @@ import pdfToText from "react-pdftotext";
 import OpenAI from "openai";
 import { v4 as uuidv4 } from 'uuid';
 import { FetchData } from "./fetchdata";
+import {StatementDataInterface} from '../Interface/BankStatementProps'
 
 const openai = new OpenAI({
   apiKey: import.meta.env.VITE_OPENAIAPI_KEY,
@@ -246,6 +247,8 @@ SCHEMA:
   return <div></div>;
 };
 
+
+
 export const processPdfAndSendToGPT3 = async (pdfFile: File, customPrompt: string): Promise<string> => {
   try {
     if (!pdfFile) {
@@ -278,7 +281,10 @@ export const processPdfAndSendToGPT3 = async (pdfFile: File, customPrompt: strin
 
 };
 
-export const createEntity = async () => {
+
+
+
+export const createEntity = async (bankStatementData :StatementDataInterface) => {
   const apiUrl = "https://get-your-money-up-backend.onrender.com/";
   const options = {
     method: "POST",
@@ -286,7 +292,7 @@ export const createEntity = async () => {
       "Content-Type": "application/json",
     },
     credentials: 'include', // Include cookies if needed
-    //body: JSON.stringify(),
+    body: JSON.stringify(bankStatementData),
   };
 
   const response = await FetchData(apiUrl, options);
