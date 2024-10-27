@@ -5,6 +5,10 @@ import "./styles.css";
 import { Loading } from '../Components/Loading';
 import { CategoryParsedDataInterface } from '../Interface/CategoryData';
 import CategoryChart from '../Components/CategoryChat';
+import CategoryLineChart from '../Components/LineChart';
+import { DisposableIncomeData } from '../Interface/savingsProps';
+// import Questionnaire from '../Components/Questionnaire';
+import InvestmentQuestionnaire from '../Components/InvestmentQuestionnaire';
 
 // Supabase client keys and url
 const supabaseUrl = "https://zzbgglheuqzbwueaeino.supabase.co/";
@@ -16,6 +20,7 @@ const supabaseClient = createClient(supabaseUrl, apiKey);
 const SupabaseConnection: React.FC = () => {
   const [file, setFile] = useState<File | null>(null);
   const [categoryData, setCategoryData] = useState<CategoryParsedDataInterface | null>(null);
+  const [savingsData, setSavingsData] = useState<DisposableIncomeData | null>(null);
   const [loading, setLoading] = useState(false);
 
   // Handler for file change
@@ -35,9 +40,11 @@ const SupabaseConnection: React.FC = () => {
     if (file) {
       setLoading(true); // Start loading
       try {
-        const data = await parserLogic(file);
-        if (data) {
-          setCategoryData(data);
+        const result = await parserLogic(file);
+        if (result) {
+          const { categoryData, savingsData } = result; // Destructure category and savings data
+          setCategoryData(categoryData);
+          setSavingsData(savingsData);
         }
       } catch (error) {
         console.error("Error processing file:", error);
@@ -81,10 +88,13 @@ const SupabaseConnection: React.FC = () => {
       {loading && <Loading />}
 
       {/* Display chart after loading and once data is available */}
-      { categoryData && !loading && (
+      { categoryData && savingsData && !loading && (
         <div>
           <CategoryChart data={categoryData} />
+          <CategoryLineChart data={savingsData}/>
+          <InvestmentQuestionnaire />
         </div>
+        
       )}
     </div>
   );

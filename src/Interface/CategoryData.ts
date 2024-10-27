@@ -1,3 +1,4 @@
+
 interface CategoryData {
     category: string;
     total_amount: number;
@@ -6,6 +7,12 @@ interface CategoryData {
     currency: string;
 }
 
+interface SavingsData {
+    average_disposable_income: number;
+    forecasted_savings_list: [number, number][];
+}
+
 export interface CategoryParsedDataInterface {
     categories: CategoryData[];
+    savingsData?: SavingsData[];
 }
