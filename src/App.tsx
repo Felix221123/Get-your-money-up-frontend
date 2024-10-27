@@ -3,13 +3,13 @@ import React from 'react'
 import './App.css'
 // import GetYourMoneyUp from './App/GetYourMoneyUp'
 import Questionnaire from './Components/Questionnaire'
-import SupabaseConnection from './home/Supabase'
+// import SupabaseConnection from './home/Supabase'
 
 function App() {
   return (
     <>
       {/* <GetYourMoneyUp /> */}
-      <SupabaseConnection/>
+      {/* <SupabaseConnection/> */}
       <Questionnaire />
     </>
   )
