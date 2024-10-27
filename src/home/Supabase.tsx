@@ -36,7 +36,7 @@ const SupabaseConnection: React.FC = () => {
           onChange={handleFileChange}
           style={{ display: 'none' }}
         />
-        <button type="button" onClick={() => document.getElementById('myFile')?.click()}>
+        <button type="button" onClick={() => document.getElementById('#myFile')?.click()}>
           Upload
         </button>
       </label>
