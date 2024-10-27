@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Chart } from 'primereact/chart';
 import { CategoryParsedDataInterface } from '../Interface/CategoryData';
 import Questionnaire from './Questionnaire';
-
+import Recommendations from './Recommendations';
 interface ChartData {
     labels: string[];
     datasets: {
@@ -151,6 +151,7 @@ const CategoryChart: React.FC<{ data: CategoryParsedDataInterface }> = ({ data }
                 </div>
             )}
             <Questionnaire />
+          <Recommendations topCategories={topCategories}/>
         </>
     );
 };
