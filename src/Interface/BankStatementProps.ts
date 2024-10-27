@@ -4,11 +4,11 @@ interface BankStatement {
     time: string;
     name: string;
     category: string;
-    amount: string;
+    amount: number;
     currency: string;
     description: string;
-    money_out: string;
-    money_in: string;
+    money_out: number;
+    money_in: number;
 }
 
 export interface StatementDataInterface {

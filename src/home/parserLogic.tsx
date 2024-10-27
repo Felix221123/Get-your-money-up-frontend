@@ -9,7 +9,7 @@ const openai = new OpenAI({
   dangerouslyAllowBrowser: true,
 });
 
-export const parserLogic = (pdfFile: File) => {
+export const parserLogic = async(pdfFile: File) => {
   const testmode = true;
   let ssuid = uuidv4();
   const testResponse = `{
@@ -238,11 +238,15 @@ SCHEMA:
 }
   VALUES:
 `;
-  if (testmode) {
-    console.log(testResponse);
-  } else {
-    processPdfAndSendToGPT3(pdfFile, customPrompt);
-  }
+if (testmode) {
+  const formattedData = formatBankStatementData(JSON.parse(testResponse));
+  console.log(formattedData);
+  createEntity(formattedData);
+} else {
+  const rawData = await processPdfAndSendToGPT3(pdfFile, customPrompt);
+  const formattedData = formatBankStatementData(JSON.parse(rawData));
+  createEntity(formattedData);
+}
 
   return <div></div>;
 };
@@ -282,6 +286,19 @@ export const processPdfAndSendToGPT3 = async (pdfFile: File, customPrompt: strin
 };
 
 
+
+export const formatBankStatementData = (rawData: StatementDataInterface): StatementDataInterface => {
+  return {
+    statements: rawData.statements.map((statement) => ({
+      ...statement,
+      amount: statement.amount, // Convert to number if needed for calculations
+      money_out: statement.money_out,
+      money_in: statement.money_in,
+      date: new Date(statement.date).toISOString().split('T')[0], // Ensure ISO format for date
+      time: statement.time || "00:00:00", // Default if time is missing
+    })),
+  };
+};
 
 
 export const createEntity = async (bankStatementData :StatementDataInterface) => {
